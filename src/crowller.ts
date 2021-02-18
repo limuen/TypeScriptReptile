@@ -51,4 +51,4 @@ const analyzer = DellAnalyzer.getInstance();
 // 组合设计模式
 // const analyzer = new DellAnalyzer();
 // const leeAnalyzer = new LeeAnalyzer();
-new Crowller(url, analyzer);
+new Crowller(url, analyzer); 
