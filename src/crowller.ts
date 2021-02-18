@@ -10,7 +10,7 @@ import * as superagent from 'superagent';
 // npm install cheerio --save   npm install @types/cheerio -D
 
 import DellAnalyzer from './dellAnalyzer';
-import LeeAnalyzer from './leeAnalyzer';
+// import LeeAnalyzer from './leeAnalyzer';
 
 // 参数html、filePath 返回也是string
 export default interface Analyze {
@@ -21,17 +21,17 @@ class Crowller {
   private filePath = path.resolve(__dirname, '../data/course.json');
 
   // 获取网址的html
-  async getRawHtml() {
+  private async getRawHtml() {
     const result = await superagent.get(this.url);
     return result.text;
   }
 
-  writeFile(content: string) {
+  private writeFile(content: string) {
     // fs.writeFileSync第二个参数必须是字符串 fileContent是对象 所以stringify
     fs.writeFileSync(this.filePath, content);
   }
 
-  async initSpiderProcess() {
+  private async initSpiderProcess() {
     const html = await this.getRawHtml();
     // fs.writeFileSync第二个参数必须是字符串 fileContent是对象 所以stringify
     const fileContent = this.analyzer.analyze(html, this.filePath);
@@ -43,9 +43,12 @@ class Crowller {
   }
 }
 const secret = 'x3b174jsx';
-// const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
+const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
 // 组合设计模式
-const url = 'http://www.baidu.com';
-const analyzer = new DellAnalyzer();
-const leeAnalyzer = new LeeAnalyzer();
-new Crowller(url, leeAnalyzer);
+// const url = 'http://www.baidu.com';
+// 单例模式
+const analyzer = DellAnalyzer.getInstance();
+// 组合设计模式
+// const analyzer = new DellAnalyzer();
+// const leeAnalyzer = new LeeAnalyzer();
+new Crowller(url, analyzer);
